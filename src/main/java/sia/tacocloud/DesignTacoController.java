@@ -65,11 +65,21 @@ public class DesignTacoController {
         return new Taco();
     }
 
-    @GetMapping
     // Paired with @RequestMapping specifies that when an HTTP Get request is received by /design, Spring MVC will
     // call showDesignForm() to handle the request
+    @GetMapping
     public String showDesignForm() {
         return "design";
+    }
+
+    @PostMapping //Handles POST requests
+    public String processTaco(Taco taco,
+                              @ModelAttribute TacoOrder tacoOrder) { //ModelAttribute applied to the TacoOrder parameter indicates that it should
+        // use the TacoOrder object that was placed into the model
+        tacoOrder.addTaco(taco);
+        log.info("Processing taco: {}", taco);
+
+        return "redirect:/orders/current";
     }
 
     private Iterable<Ingredient> filterByType(
