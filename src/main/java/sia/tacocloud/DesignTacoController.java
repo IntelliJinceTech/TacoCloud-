@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import sia.tacocloud.Ingredient;
 import sia.tacocloud.Ingredient.Type;
 import sia.tacocloud.Taco;
+
+import javax.validation.Valid;
 
 @Slf4j
 //automatically generates a SLF4J that allows end user to plug in the desired logging framework at deployment time
@@ -73,9 +76,14 @@ public class DesignTacoController {
     }
 
     @PostMapping //Handles POST requests
-    public String processTaco(Taco taco,
-                              @ModelAttribute TacoOrder tacoOrder) { //ModelAttribute applied to the TacoOrder parameter indicates that it should
+    public String processTaco(
+            @Valid Taco taco, Errors errors, //@Valid is for validation on the submitted taco - tells Spring MVC to perform validation on the
+            // submitted Taco object after it's bound to the submitted form data and before the processTaco() method is called
+            @ModelAttribute TacoOrder tacoOrder) { //ModelAttribute applied to the TacoOrder parameter indicates that it should
         // use the TacoOrder object that was placed into the model
+        if (errors.hasErrors()) {
+            return "design";
+        }
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}", taco);
 
