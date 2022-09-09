@@ -1,4 +1,4 @@
-package sia.tacocloud;
+package sia.tacocloud.Web;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import lombok.extern.slf4j.Slf4j;
+
 import sia.tacocloud.Ingredient;
 import sia.tacocloud.Ingredient.Type;
 import sia.tacocloud.Taco;
+import sia.tacocloud.TacoOrder;
 
 import javax.validation.Valid;
 
